@@ -1,0 +1,70 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="activity">
+<h1>Aktivitet: ${activity.name}</h1>
+<div id="activity-left">
+  <h1>Information</h1>
+    <h2>Vad?:</h2>${activity.name} <br /> 
+  <h2>Var?:</h2>${activity.location} <br />
+    <h2>När?:</h2>${activity.date.format('MMM dd')} <br />
+  <h2>Ansvarig:</h2>${activity.creator.name} <br />  
+    <h2>Detaljer:</h2>${activity.information} <br />   
+</div>
+<div id="activity-right">
+    <div id="activity-status">
+       #{show_my_status status:actStatus /}
+    </div>
+    <div id="activity-list">
+        #{show_activity_list activity:activity /}
+    </div>  
+</div>
+
+<div id="activity-messages">
+  <h1>Meddelanden</h1>
+  
+  #{form @save()}
+ 
+ 
+    <p>
+        #{field 'content'}
+        <textarea name="${field.name}" 
+            id="activityMessage">${post?.content}"</textarea>
+        #{/field}
+    </p>
+ 
+    <p>
+        <input type="submit" value="Posta" />
+    </p>
+    
+#{/form}
+  
+  *{
+    <% form_tag :action => "add_message" do %>
+    <%= hidden_field_tag :activity_id, @activity.id %>
+    <%= hidden_field_tag :user_id, @current_user.id %>
+    <%= hidden_field_tag :time, Time.now %>
+    <%= text_area_tag :message, params[:message],
+                        :cols => 70,
+                        :rows => 4,
+                        :onFocus => "this.className='input-onFocus'", 
+                        :onBlur => "this.className='input-onBlur'",
+                        :class => 'input-onBlur' %>
+                       
+  <br/>
+    <%= submit_tag "Posta" %>
+    <% end %>
+    }*
+    #{if actMessages}
+    #{list items:actMessages, as:'actMessage'}
+    <div class="activity-message">
+            <div class="activity-message-header">
+            <span class="highlight">${actMessage.user.name}</span>
+            <span class="smaller">skrev ${actMessage.date}</span>
+            </div>
+            ${actMessage.message}
+    </div>
+    #{/list}
+     #{/if}
+</div>
+</div>

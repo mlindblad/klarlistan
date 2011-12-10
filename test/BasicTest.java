@@ -11,7 +11,8 @@ public class BasicTest extends UnitTest {
 	@Test
 	public void createAndRetrieveUser() {
 	    // Create a new user and save it
-	    new Activity("Bandy", "Åsen", null, "Minst sex pers").save();
+		User user = new User("Martin" ,"martin.lindblad@gmail.com", "08635472", "secret");
+	    new Activity("Bandy", "Åsen", null, "Minst sex pers", user).save();
 	    
 	    // Retrieve the user with e-mail address bob@gmail.com
 	    Activity activity = Activity.find("byName", "Bandy").first();

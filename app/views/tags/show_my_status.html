@@ -1,0 +1,16 @@
+<h1>Status</h1>
+#{if _status.status == -1}
+Jag är <span class="unknown">oanmäld</span> på denna aktivitet.<br/>
+Sätt upp mig på
+<a href="#">Klarlistan</a>
+<a href="#">Bortalistan</a>
+#{/if}
+#{if _status.status == 0}
+Jag är <span class="gone">borta</span> för denna aktivitet.<br/>
+
+<a href="#">"Flytta mig till klarlistan"</a>
+#{/if}
+#{if _status.status == 1}
+Jag är <span class="ready">klar</span> för denna aktivitet.<br/>
+<a href="#">"Flytta mig till klarlistan"</a>
+#{/if}

@@ -1,0 +1,139 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="start-header">
+    <h1>Ny aktivitet</h1>
+</div>
+<div class="add-activity-form">
+#{form @save()}
+  <h1>Detaljer</h1>
+<table class="form-table" id="table-left" cellspacing="0">  
+<tr class="">
+    <td> 
+       <label>Aktivitet:</label>
+    </td>
+    <td>         
+    #{field 'name'}
+         <input type="text" id="${field.id}" name="${field.name}" value="${field.value}" class="${field.errorClass}">
+         <span class="error">${field.error}</span>
+    #{/field}
+    </td>
+    </tr>
+    <tr>
+    <td> 
+       <label>Plats:</label>
+    </td>
+    <td>
+    #{field 'location'} 
+         <input type="text" id="${field.id}" name="${field.name}" value="${field.value}" class="${field.errorClass}">
+         <span class="error">${field.error}</span>
+   #{/field}
+    </td>
+    </tr>
+    
+  <tr><td> 
+        <input type="submit" value="Skicka" />
+</td></tr> 
+  
+  
+#{/form} 
+*{
+
+                                    :onFocus => "this.className='input-onFocus'", 
+                                    :onBlur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %>
+</td></tr>
+<tr class="<%= cycle('list-line-odd', 'list-line-even') %>"><td> 
+                <label for="activity_place">Plats:</label>
+</td><td>                
+                <%= text_field 'activity', 'place', 
+                                    :onFocus => "this.className='input-onFocus'", 
+                                    :onBlur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %> 
+</td></tr>
+<tr class="<%= cycle('list-line-odd', 'list-line-even') %>"><td> 
+                
+                <label for="activity_time">Tidpunkt:</label>
+</td><td>                
+                <%= datetime_select 'activity', 'time', 
+                                    :start_year => 2007,
+                                    :minute_step => 5,
+                                    :order => [:day, :month, :year],
+                                    :onFocus => "this.className='input-onFocus'", 
+                                    :onBlur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %> 
+</td></tr>
+<tr class="<%= cycle('list-line-odd', 'list-line-even') %>"><td> 
+                <label for="activity_description">Information:</label>
+</td><td>                
+                <%= text_area 'activity', 'description',
+                                    :cols => 30,
+                                    :rows => 3,
+                                    :onFocus => "this.className='input-onFocus'", 
+                                    :onBlur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %> 
+
+               <%= hidden_field 'activity', 'user_id', :value => @current_user.id %>  
+</td></tr>     
+</table>    
+    <p>
+        <label for="author">Your name: </label>
+        <input type="text" name="author" id="author" />
+    </p>
+    <p>
+        <label for="content">Your message: </label>
+        <textarea name="content" id="content"></textarea>
+    </p>
+    <p>
+        <input type="submit" value="Submit your comment" />
+    </p>
+
+<% if error_messages_for(:activity) != "" -%>
+    <div class="error-box">
+        <%= error_messages_for(:activity) %>  
+    </div>
+<% end -%>      
+
+             
+<h1>Deltagare</h1>
+<table class="form-table" cellspacing="0">  
+<tr><td class="list-tags">
+Markera:    
+<%= link_to_remote 'alla', 
+                   :url => {:action => 'select_friend', :tag_name => 'alla'}
+                   %> 
+
+<% @current_user.tags.each do |t| %>
+    <%= link_to_remote h(t.name), 
+                       :url => {:action => 'select_friend', :tag_name => t.name}
+                       %>                 
+<% end %>
+<br/> 
+Avmarkera:  
+<%= link_to_remote 'alla', 
+                   :url => {:action => 'deselect_friend', :tag_name => 'alla'}
+                   %> 
+
+<% @current_user.tags.each do |t| %>
+    <%= link_to_remote h(t.name), 
+                       :url => {:action => 'deselect_friend', :tag_name => t.name}
+                       %>                 
+<% end %> 
+</td></tr>            
+ <% @current_user.friends.each do |friend| %>
+ <tr class="<%= cycle('list-line-odd', 'list-line-even') %>"> 
+   <td id="list_activity_user_id_<%= friend.id %>">
+        <input type="checkbox" id="activity_user_id_<%= friend.id %>" name="activity[user_ids][]" value="<%= friend.id %>" <% if @activity.users.include?(friend) %> checked="checked" <% end %> />
+        <label for="activity_user_id_<%= friend.id %>"><%= friend.name %></label>
+   </td></tr>
+ <% end %>
+<tr><td> 
+<input type="hidden" name="activity[user_ids][]" value="<%= @current_user.id %>" />           
+<%= submit_tag "Skicka", :class => "submit" %>
+</td></tr> 
+</table> 
+    
+  }*  
+
+       
+</div>

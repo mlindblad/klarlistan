@@ -1,0 +1,6 @@
+Email-integrering - maila ut påminnelser, bekräfta mail vid signup
+Grande tour of klarlistan
+Cancel/tillbaka-knappar
+Konsistent utseende i alla browsers (eller att alla kör safari...)
+Mer avancerad sök vänner funktion
+Kartor, koordinater

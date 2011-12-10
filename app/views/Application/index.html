@@ -1,4 +1,46 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{welcome /}
+<div class="start-header">
+<h1>Logga in på Klarlistan</h1>
+   <a class="${request?.controller == 'Application' ? 'selected' : ''}" href="@{Activities.list}">Show activity</a>
+</div>
+
+*{
+<div id="login-form" class="login-form">
+<% form_tag :action => 'login' do %> 
+  <table class="form-table">
+<tr><td>                   
+                <label for="email">Email:</label>
+</td><td>
+                <%= text_field_tag :email, params[:email], :size => 40,
+                                    :onfocus => "this.className='input-onFocus'", 
+                                    :onblur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %> 
+</td></tr>
+<tr><td> 
+                <label for="password">Lösenord:</label>
+</td><td>
+                <%= password_field_tag :password, params[:password], :size => 40,
+                                    :onfocus => "this.className='input-onFocus'", 
+                                    :onblur => "this.className='input-onBlur'",
+                                    :class => 'input-onBlur' %>
+</td></tr>
+<tr><td>&nbsp;</td><td>
+              <%= check_box_tag :save_login, params[:save_login] %>
+              <label for="save_login">Logga in mig automatiskt framöver<br/> om jag inte loggar ut</label>
+              
+</td></tr>
+<tr><td>&nbsp;</td><td class="submit">                  
+                    <%= submit_tag "Logga in" %> eller
+                  <%= link_to "Skaffa Konto", :controller => "start", :action => "signup" %>
+</td></tr>    
+
+<tr><td>&nbsp;</td><td>                
+                  <%= link_to "Glömt bort lösenordet?", :controller => "start", :action => "forgot_password" %>
+</td></tr>     
+
+</table>        
+        <% end %>
+</div>
+}*

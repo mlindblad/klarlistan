@@ -1,0 +1,70 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="start-header">
+<h1>Mina Aktiviteter</h1>
+    <a href="@{Activities.newActivity}">Skapa ny aktivitet</a>
+</div>
+
+
+<table class="list-table" cellspacing="0">
+<tr>
+<th>Tidpunkt</th>
+<th>Aktivitet</th>
+<th class="ready">Klara</th>
+<th class="gone">Borta</th>
+<th class="unknown">&nbsp;?&nbsp;</th>
+<th>Mess</th>
+<th>Jag&nbsp;är</th>
+<th>&nbsp;</th>
+</tr>
+
+#{list items:activities, as:'activity'}
+*{
+  <% if (a.time > Time.now) && a.active -%>
+  <tr class="<%= cycle('list-line-odd', 'list-line-even') %>">
+  <% else -%>
+  <tr class="list-line-inactive">
+  <% end -%>
+  }*
+    <td>${activity.date}</td>
+    <td><a href="@{Activities.show(activity.id)}">${activity.name} , ${activity.location} </a></td>
+          
+    <td class="ready">${activity.nrOfYes()}</td>
+    <td class="gone">${activity.nrOfNo()}</td>
+    <td class="unknown">${activity.nrOfUnknown()}</td>
+    <td>${activity.messages.size()}</td>
+  *{
+  <td>
+    <% user_status = a.user_activities.find_by_user_id(@current_user.id).status %>
+    <% if user_status == 1 %>
+      <span class="ready">Klar</span>
+    <% elsif user_status == 0 %>
+      <span class="gone">Borta</span>
+    <% elsif user_status == -1 %>
+      <span class="unknown">Oklar</span>
+    <% end %>
+  </td>
+  <td>
+  <% if @current_user == a.user -%>
+  <%= link_to 'uppdatera', :controller => 'activity', :action => 'edit', :id => a.id %>
+  <% else -%> 
+  <%= link_to 'visa', :controller => 'activity', :action => 'show', :id => a.id %>
+  <% end -%>
+  
+  </td>
+  }*            
+</tr>
+#{/list}
+</table>
+
+
+
+
+
+
+
+<div class="start-header"> 
+<%= link_to 'Föregående sida', { :page => @activity_pages.current.previous } if @activity_pages.current.previous %>
+<%= link_to 'Nästa sida', { :page => @activity_pages.current.next } if @activity_pages.current.next %> 
+</div>
