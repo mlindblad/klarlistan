@@ -23,14 +23,14 @@
 <div id="activity-messages">
   <h1>Meddelanden</h1>
   
-  #{form @save()}
+  #{form @createActivityMessage()}
  
  
     <p>
-        #{field 'content'}
-        <textarea name="${field.name}" 
-            id="activityMessage">${post?.content}"</textarea>
+        #{field 'message'}
+        <textarea name="${field.name}" id="activityMessage"></textarea>
         #{/field}
+        <input type="hidden" name="activityId" value="${activity.id}" />
     </p>
  
     <p>

@@ -1,0 +1,15 @@
+<ul>
+    *{Aktiviteter}*
+    #{if request.controller == "Activities"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+     <a href="@{Activities.list()}">Aktiviteter</a>
+    
+    *{Logga ut}*
+    <li>
+      <a href="@{Secure.logout()}">Logga ut</a>   
+    </li>
+</ul>

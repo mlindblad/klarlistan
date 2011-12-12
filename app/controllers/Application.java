@@ -9,9 +9,14 @@ import java.util.*;
 
 import models.*;
 
+
 public class Application extends Controller {
 
     public static void index() {
+    	redirect("Secure.login");
+    }
+    
+    public static void signup() {
     	render();
     }
 

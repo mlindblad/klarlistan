@@ -19,8 +19,8 @@ public class User extends Model {
 	public String mobileNr;
 	public String password;
 	
-	@ManyToMany 
-	public List<Activity> followedActivities = new ArrayList<Activity>(); 
+//	@ManyToMany 
+//	public List<Activity> followedActivities = new ArrayList<Activity>(); 
 	
 	public User(String name, String email, String mobileNr, String password) {
 		this.name = name;
@@ -32,5 +32,9 @@ public class User extends Model {
 	
 	public static User findUser(String email, String password) {
 	    return find("byEmailAndPassword", email, password).first();
+	}
+	
+	public static User findUserByUsername(String userName) {
+		return find("byEmail", userName).first();
 	}
 }

@@ -1,0 +1,22 @@
+<ul>
+    *{Logga in}*
+    #{if request.actionMethod == "index"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+        <a href="@{Application.index()}">Logga in</a>
+        </li>
+        
+     *{Skaffa konto}*
+    #{if request.actionMethod == "signup"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+        <a href="@{Application.signup()}">Skaffa konto</a>
+        </li>
+        
+<ul>     

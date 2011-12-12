@@ -34,17 +34,22 @@
     <td class="gone">${activity.nrOfNo()}</td>
     <td class="unknown">${activity.nrOfUnknown()}</td>
     <td>${activity.messages.size()}</td>
-  *{
-  <td>
-    <% user_status = a.user_activities.find_by_user_id(@current_user.id).status %>
-    <% if user_status == 1 %>
-      <span class="ready">Klar</span>
-    <% elsif user_status == 0 %>
-      <span class="gone">Borta</span>
-    <% elsif user_status == -1 %>
-      <span class="unknown">Oklar</span>
-    <% end %>
+    <td>
+    %{
+        actStatus = activity.getActivityStatusForUser(session.username);    
+    
+        if (actStatus.status == 1) {
+            out.print('<span class="ready">Klar</span>');
+        } else if (actStatus.status == 0) {
+            out.print('<span class="gone">Borta</span>');
+        } else if (actStatus.status == -1) {
+            out.print('<span class="unknown">Oklar</span>');
+        }
+    }%
+        
   </td>
+  *{
+  
   <td>
   <% if @current_user == a.user -%>
   <%= link_to 'uppdatera', :controller => 'activity', :action => 'edit', :id => a.id %>
@@ -62,9 +67,10 @@
 
 
 
-
+*{
 
 <div class="start-header"> 
 <%= link_to 'Föregående sida', { :page => @activity_pages.current.previous } if @activity_pages.current.previous %>
 <%= link_to 'Nästa sida', { :page => @activity_pages.current.next } if @activity_pages.current.next %> 
 </div>
+*}

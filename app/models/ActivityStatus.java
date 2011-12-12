@@ -29,4 +29,10 @@ public class ActivityStatus extends Model {
 	public static List<ActivityStatus> findAllYes(Activity activity) {
 	    return ActivityStatus.find("Select as from ActivtyStaus as where as.activity = activity and as.status = 1").fetch();
 	}
+	
+	public static List<ActivityStatus> findAllActivityStatusesForUser(User user) {
+		return ActivityStatus.find("byUser", user).fetch();
+	}
+
+	
 }
