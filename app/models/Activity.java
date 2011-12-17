@@ -12,14 +12,23 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import play.data.validation.MaxSize;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
 public class Activity extends Model {
 
+	@Required
 	public String name;
+	
+	@Required
 	public String location;
+	
+	@Required
 	public Date date;
+	
+	@MaxSize(10000)
 	public String information;
 	
 	@OneToOne
@@ -83,5 +92,9 @@ public class Activity extends Model {
 			}
 		}
 		return null;
+	}
+	
+	public String toString() {
+		return name;
 	}
 }

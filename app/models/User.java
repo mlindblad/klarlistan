@@ -9,14 +9,24 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
+import play.data.validation.Email;
+import play.data.validation.MinSize;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
 public class User extends Model {
 	
+	@Required
+	@MinSize(4)
 	public String name;
+	
+	@Required
+	@Email
 	public String email;
 	public String mobileNr;
+	
+	@Required
 	public String password;
 	
 //	@ManyToMany 
@@ -36,5 +46,9 @@ public class User extends Model {
 	
 	public static User findUserByUsername(String userName) {
 		return find("byEmail", userName).first();
+	}
+	
+	public String toString() {
+	    return name;
 	}
 }

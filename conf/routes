@@ -8,6 +8,9 @@ GET     /                                       Application.index
 # Import Secure routes
 *       /                                       module:secure
 
+# Import CRUD routes
+*      /admin                                   module:crud
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

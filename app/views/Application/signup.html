@@ -1,4 +1,59 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-More to come!!
+<div class="start-header">
+<h1>Fyll i detaljer</h1>
+</div>
+
+<div id="signup-form" class="signup-form">
+    #{ifErrors}
+        <div class="error">
+               ${errors[0]}
+         </div>
+    #{/ifErrors}
+       
+<table class="form-table" cellspacing="0">    
+        #{form @Application.createUser()}
+<tr class=""><td>         
+                <label for="user_name">Namn:</label>
+</td><td>
+    
+ <input class="input-onBlur" id="user_name" name="user_name" value="${params.user_name}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'" size="30" type="text" />
+    
+</td></tr>
+<tr class=""><td> 
+                <label for="user_email">Email:</label>
+</td><td>
+  <input class="input-onBlur" id="user_email" name="user_email" value="${params.user_email}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'" size="30" type="text" />    
+</td></tr>
+<tr class=""><td> 
+                <label for="user_password">Lösenord:</label>
+</td><td>
+                <input class="input-onBlur" id="user_password" name="user_password" value="${params.user_password}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'" size="30" type="password" />
+</td></tr>
+<tr class=""><td> 
+                <label for="user_password_confirmation">Bekräfta lösenord:</label>
+</td><td>
+               <input class="input-onBlur" id="user_password_confirmation" name="user_password_confirmation" value="${params.user_password_confirmation}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'" size="30" type="password" />
+</td></tr>
+<tr class=""><td>&nbsp;</td><td class="submit"> 
+            <input class="submit" name="commit" type="submit" value="Skicka" />
+</td></tr>      
+      #{/form}
+</table>         
+</div>
+
+<script type="text/javascript" charset="${_response_encoding}">
+    $(function() {         
+        // Expose the form 
+        $('form').click(function() { 
+            $('form').expose({api: true}).load(); 
+        }); 
+        
+        // If there is an error, focus to form
+        if($('form .error').size()) {
+            $('form').expose({api: true, loadSpeed: 0}).load(); 
+            $('form input[type=text]').get(0).focus();
+        }
+    });
+</script>

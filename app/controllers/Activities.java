@@ -12,8 +12,9 @@ import play.db.jpa.JPABase;
 import play.mvc.Controller;
 import play.mvc.With;
 
+@CRUD.For(Activity.class)
 @With(Secure.class)
-public class Activities extends Controller {
+public class Activities extends CRUD {
 
 	
 	public static void show(Long activityId) {
@@ -25,7 +26,7 @@ public class Activities extends Controller {
 		render(activity, actStatus, actMessages);
     }
 	
-	public static void list() {
+	public static void listAll() {
 		User user = User.findUserByUsername(Security.connected());
 		List<ActivityStatus> statuses = ActivityStatus.findAllActivityStatusesForUser(user);
 		List<Activity> activities = new ArrayList<Activity>();

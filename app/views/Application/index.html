@@ -8,6 +8,10 @@
 <div id="login-form" class="login-form">
     
     <h1>&{'secure.title'}</h1>
+    
+    #{if flash.success}
+    <p class="success">${flash.success}</p>
+    #{/if}
         
     #{form @Secure.authenticate()}
         
