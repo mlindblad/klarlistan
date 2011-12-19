@@ -5,10 +5,17 @@
     <h1>Ny aktivitet</h1>
 </div>
 <div class="add-activity-form">
-#{form @save()}
+
   <h1>Detaljer</h1>
+  
+    #{ifErrors}
+        <p class="error">
+               ${errors[0]}
+         </p>
+    #{/ifErrors}
+  #{form @save()}
 <table class="form-table" id="table-left" cellspacing="0">  
-<tr class="">
+<tr>
     <td> 
        <label>Aktivitet:</label>
     </td>
@@ -51,7 +58,7 @@
   <tr><td> 
         <input type="submit" value="Skicka" />
 </td></tr> 
-  
+  </table>
   
 #{/form} 
 
@@ -75,6 +82,5 @@
                 }); 
         }); 
 </script> 
-
 
 

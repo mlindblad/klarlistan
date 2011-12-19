@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import play.db.jpa.Model;
 
@@ -31,7 +32,7 @@ public class ActivityStatus extends Model {
 	}
 	
 	public static List<ActivityStatus> findAllActivityStatusesForUser(User user) {
-		return ActivityStatus.find("byUser", user).fetch();
+		return ActivityStatus.find("user = ? order by activity.date desc", user).fetch();
 	}
 
 	

@@ -27,7 +27,7 @@
   <tr class="list-line-inactive">
   <% end -%>
   }*
-    <td>${activity.date}</td>
+    <td>${activity.date.format("EEEE dd MMM yyyy 'kl' HH:mm")}</td>
     <td><a href="@{Activities.show(activity.id)}">${activity.name} , ${activity.location} </a></td>
           
     <td class="ready">${activity.nrOfYes()}</td>

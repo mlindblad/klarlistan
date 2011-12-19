@@ -10,6 +10,7 @@ import models.Activity;
 import models.ActivityMessage;
 import models.ActivityStatus;
 import models.User;
+import play.data.validation.Required;
 import play.db.jpa.JPABase;
 import play.mvc.Controller;
 import play.mvc.Scope.Session;
@@ -36,6 +37,7 @@ public class Activities extends CRUD {
 		for (ActivityStatus activityStatus : statuses) {
 			activities.add(activityStatus.activity);
 		}
+
 		render(activities);
 	}
 	
@@ -51,7 +53,16 @@ public class Activities extends CRUD {
 	    render();
 	}
 	 
-	public static void save(String name, String location, String date, String information) {
+	public static void save(@Required(message="Ange ett namn på aktiviteten") String name, 
+			@Required(message="Ange plats") String location, 
+			@Required(message="Ange datum") String date, String information) {
+
+		
+		if (validation.hasErrors()) {
+			render("Activities/newActivity.html");
+		}
+		
+		
 		// The constructor is the format the string will take
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date activityDate = null;
@@ -62,6 +73,8 @@ public class Activities extends CRUD {
 			e.printStackTrace();
 		}
 
+		
+		
 		
 		Activity activity = new Activity(name, location, activityDate, information, User.findUserByUsername(Security.connected()));
 		activity.save();
