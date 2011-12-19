@@ -1,5 +1,7 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +12,7 @@ import models.ActivityStatus;
 import models.User;
 import play.db.jpa.JPABase;
 import play.mvc.Controller;
+import play.mvc.Scope.Session;
 import play.mvc.With;
 
 @CRUD.For(Activity.class)
@@ -48,9 +51,23 @@ public class Activities extends CRUD {
 	    render();
 	}
 	 
-	public static void save(String name, String location) {
-		Activity activity = new Activity(name, location, new Date(), "Kom i tid", User.findUser("martin.lindblad@gmail.com", "secret"));
+	public static void save(String name, String location, String date, String information) {
+		// The constructor is the format the string will take
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date activityDate = null;
+		try {
+			activityDate = formatter.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		Activity activity = new Activity(name, location, activityDate, information, User.findUserByUsername(Security.connected()));
 		activity.save();
+		
+		ActivityStatus status = new ActivityStatus(User.findUserByUsername(Security.connected()), activity, 1);
+		status.save();
 		show(activity.id);
 	}
 	

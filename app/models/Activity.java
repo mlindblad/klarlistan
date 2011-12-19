@@ -40,8 +40,8 @@ public class Activity extends Model {
 	@OneToMany(mappedBy="activity", cascade=CascadeType.ALL)
 	public List<ActivityStatus> activityStatuses;
 	
-//	@ManyToMany(mappedBy="followedActivities") 
-//    public List<User> followsByUsers = new ArrayList<User>(); 
+	@ManyToMany(mappedBy="followedActivities") 
+    public List<User> followsByUsers = new ArrayList<User>(); 
 	
 	public Activity(String name, String location, Date date, String information, User creator) {
 		this.name = name;

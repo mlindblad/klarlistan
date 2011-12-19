@@ -29,8 +29,8 @@ public class User extends Model {
 	@Required
 	public String password;
 	
-//	@ManyToMany 
-//	public List<Activity> followedActivities = new ArrayList<Activity>(); 
+	@ManyToMany 
+	public List<Activity> followedActivities = new ArrayList<Activity>(); 
 	
 	public User(String name, String email, String mobileNr, String password) {
 		this.name = name;

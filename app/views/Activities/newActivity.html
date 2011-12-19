@@ -24,7 +24,7 @@
     </td>
     <td>
     #{field 'location'} 
-         <input class="input-onBlur" type="text" id="${field.id}" name="${field.name}" value="${field.value}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'">
+         <input class="input-onBlur" type="text" id="${field.id}" name="${field.name}" value="${field.value}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"/>
    #{/field}
     </td>
     </tr>
@@ -33,7 +33,19 @@
        <label>Tidpunkt:</label>
     </td>
     <td>
-         <input class="input-onBlur" type="text" id="dateEffective" name="dateEffective" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'">
+    #{field 'date'} 
+         <input class="input-onBlur" type="text" id="${field.id}" name="${field.name}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"/>
+    #{/field} 
+    </td>
+    </tr>
+    <tr>
+    <td> 
+       <label>Information:</label>
+    </td>
+    <td>
+    #{field 'information'} 
+         <textarea class="input-onBlur" type="text" id="${field.id}" name="${field.name}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"></textarea>
+    #{/field} 
     </td>
     </tr>
   <tr><td> 
@@ -48,7 +60,7 @@
 <script type="text/javascript"> 
         $.datepicker.setDefaults($.datepicker.regional['sv']);
         $(function() { 
-                $('#dateEffective').datetimepicker({ 
+                $('#date').datetimepicker({ 
                         inline: true, 
                         dateFormat: 'yy-mm-dd', 
                         gotoCurrent: true,
