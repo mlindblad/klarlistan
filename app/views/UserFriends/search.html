@@ -1,0 +1,36 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="start-header">
+<h1>Sökresultat</h1>
+</div>
+
+<div id="friends-left">
+  <h2>Potentiella vänner</h2>
+
+<div id="list-friends" class="list-friends">
+
+<ul>
+#{list items:possibleFriends, as:'user'}
+<li>
+    <div class="name">
+        ${user.name}
+    </div>
+    <div class="email">
+      ${user.email}
+        <a href="@{UserFriends.addFriend(user)}">Bli vän med</a>
+      </div> 
+</li>
+#{/list}
+</ul>
+
+</div>
+       
+</div>
+
+<div id="friends-right">
+   #{search_friends_form /}
+  </div>
+<div id="activity-messages">
+  
+</div>

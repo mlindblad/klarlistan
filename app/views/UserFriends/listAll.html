@@ -1,0 +1,51 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="start-header">
+<h1>Mina Vänner</h1>
+</div>
+
+<div id="friends-left">
+  <h2>Etiketter</h2>
+      <div id="list-tags" class="list-tags">
+       *{
+        <%= render(:partial => "list_tags") %>
+        }*     
+    </div>
+    <h2>Vänner</h2>
+       
+      <div id="list-friends" class="list-friends">
+      <ul>
+        #{list items:listOfFriends, as:'friend'}
+    <li>
+        <div class="name">
+            ${friend.name}
+            
+            *{
+            <%= "<div id=\"edit-remove-" + uf.friend_id.to_s + "\" class=\"verysmall editlinks\">" %>            
+            <%= render :partial => "edit_link", :object => uf %>
+            }*
+        </div>             
+          
+    </li>
+    #{/list}
+</ul>
+    </div>  
+</div>
+<div id="friends-right">
+    #{search_friends_form /}
+    <div id="list-friends-to-confirm" class="list-friends">
+       *{
+        <%= render(:partial => "list_friends_to_confirm", :object => @list_friends_to_confirm) %>
+        }*
+    </div>
+    <div id="list-friends-waiting" class="list-friends">
+    *{
+        <%= render(:partial => "list_friends_waiting", :object => @list_friends_waiting) %>
+        }*
+    </div>    
+    
+  </div>
+<div id="activity-messages">
+  
+</div>

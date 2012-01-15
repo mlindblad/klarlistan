@@ -1,0 +1,28 @@
+<ul>
+    #{list items:nisse, as:'apa'}
+    <li>
+        <div class="name">
+            ${apa.friend.name}
+            
+            asdasdas
+            *{
+            <%= "<div id=\"edit-remove-" + uf.friend_id.to_s + "\" class=\"verysmall editlinks\">" %>            
+            <%= render :partial => "edit_link", :object => uf %>
+            }*
+        </div>             
+          
+    </li>
+    #{/list}
+</ul>
+
+
+            
+           
+         *{  
+        </div>   
+              
+        <%= "<div id=\"list-tags-" + uf.friend_id.to_s + "\" class=\"list-tags-friend\" style=\"display: block;\">" %>
+            <%= render :partial => 'list_friend_tags', :collection => uf.tags %>
+           
+        </div> 
+         *}   
