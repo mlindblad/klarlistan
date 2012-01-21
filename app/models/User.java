@@ -43,9 +43,9 @@ public class User extends Model {
         
     }
 	
-	public void addFriend(User friend) {
-		UserFriend first = new UserFriend(email, friend.email);
-		UserFriend second = new UserFriend(friend.email, email);
+	public void addFriend(String friendId) {
+		UserFriend first = new UserFriend(email, friendId);
+		UserFriend second = new UserFriend(friendId, email);
 		first.save();
 		second.save();
 	}

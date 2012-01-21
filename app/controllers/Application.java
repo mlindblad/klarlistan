@@ -7,6 +7,8 @@ import play.db.jpa.GenericModel.JPAQuery;
 import play.db.jpa.JPABase;
 import play.mvc.*;
 
+import groovy.ui.text.FindReplaceUtility;
+
 import java.util.*;
 
 import models.*;
@@ -52,4 +54,41 @@ public class Application extends Controller {
     	redirect("Secure.login");
     }
     
+    public static void createUserFromActivity(String name, String email) {
+    	//Simple validation
+    	ValidationResult valRes = validation.email(email);
+    	if (!valRes.ok) {
+    		error("Ogiltig Emailadress");
+    		return;
+    	}
+    	if (name.equals("")) {
+    		error("Ange ett namn");
+    		return;
+    	}
+    	
+    	//Check if user exist
+    	User user = User.findUserByUsername(email);
+    	if (user == null) {
+    		//Create user
+    		user = new User(name,email, "1234567", email);
+    		user.save();
+    	} else {
+    		List<UserFriend> myFriends = UserFriend.find("byUserId", Security.connected()).fetch();
+    		for (UserFriend userFriend : myFriends) {
+				if (userFriend.friendId.equals(email)) {
+					error("Användaren med email " + userFriend.friendId + " ("+ User.findUserByUsername(userFriend.friendId).name +  ") finns redan i listan");
+					return;
+				}
+			}
+    		if (email.equals(Security.connected())) {
+    			error("Du kan inte lägga till dig själv i listan. Du är redan inkluderad i aktiviteten");
+    			return;
+    		}
+    	}
+    	UserFriend first = new UserFriend(Security.connected(), email);
+    	UserFriend second = new UserFriend(email, Security.connected());
+    	first.save();
+    	second.save();
+    	
+    }
 }

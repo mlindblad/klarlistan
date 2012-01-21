@@ -55,14 +55,93 @@
     #{/field} 
     </td>
     </tr>
-  <tr><td> 
+   
+    </table>   
+    
+    <h1>Deltagare</h1>
+    
+    <table id="friends" class="form-table" cellspacing="0">  
+    
+    #{list items:friends, as:'friend'}
+ <tr class="list-line-odd">
+ 
+   <td id="list_activity_user_id_">
+        <input type="checkbox" id="activity_user_id_" name="friends" value="${friend.email}" />
+        <label for="activity_user_id_">${friend.name}</label>
+   </td></tr>
+ #{/list}
+    
+    </table>
+    
+       <h1>Lägg till ytterligare användare</h1>
+       <h5>Användare som inte finns sedan tidigare kommer skapas</h5>
+    
+    <div id="show-error-message">
+        
+    </div>
+    
+    <table class="form-table" cellspacing="0">
+    <tr>
+    <td>
+     <label>Email:</label>
+    </td>
+    <td>
+     #{field 'newUserEmail'} 
+         <input class="input-onBlur" type="text" id="${field.name}" name="${field.name}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"/>
+      #{/field} 
+    </td>
+    </tr>
+    <tr>
+    <td>
+        <label>Namn:</label>
+    </td>
+    <td>
+    #{field 'newUserName'} 
+         <input class="input-onBlur" type="text" id="${field.id}" name="${field.name}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"/>
+    #{/field} 
+    </td>
+    <td id="newUserName">
+       <a href="@{application.createUserFromActivity()}" class="ajaxLink">Lägg till</a> 
+    <td>
+    </tr>   
+    
+  <tr><td></td><td> 
         <input type="submit" value="Skicka" />
-</td></tr> 
+</td><td></td></tr> 
   </table>
   
 #{/form} 
 
 </div>
+
+<script type="text/javascript"> 
+       $(function() {
+        // Register eventhandler
+        $(".ajaxLink").click(function() {
+            // This will be executed when the event is catched
+            event.preventDefault(); // Make sure that the link isn't followed
+            var url = $(this).attr('href'); // Get the value of the attribute href of the object that triggered the event
+            var id = $(this).data('additionalPropertiesCanStartWithData'); // Get data-value
+            
+            var data = 'name=' + $("#newUserName").val() + '&email=' + $("#newUserEmail").val();
+            $.ajax({
+                url: url,
+                data: data, 
+                success: function(data) { //data is the response from the server, here assuming JSON: { "name": "Martin" }
+                    $('<tr class="list-line-odd"><td id="list_activity_user_id_"><input type="checkbox" id="activity_user_id_ajax" name="friends" checked="yes" value=""/><label for="activity_user_id_"> ' + $("#newUserName").val() + '</label></td></tr>').appendTo("#friends");   
+                    $('#activity_user_id_ajax').val($("#newUserEmail").val());
+                    $('input#newUserEmail').val("");
+                    $('input#newUserName').val("");
+                    $('.error').remove();
+                },
+                error: function(text) {
+                    $('.error').remove();
+                    $('<p class="error">' + text.responseText + '</p>').appendTo("#show-error-message");
+                }
+            });
+        });
+    });
+</script> 
 
 <script type="text/javascript"> 
         $.datepicker.setDefaults($.datepicker.regional['sv']);
@@ -71,7 +150,7 @@
                         inline: true, 
                         dateFormat: 'yy-mm-dd', 
                         gotoCurrent: true,
-                        timeOnlyTitle: 'V�lj tid',
+                        timeOnlyTitle: 'V�lj tid',
                         timeText: 'Klockan',
                         hourText: 'Timme',
                         minuteText: 'Minut',

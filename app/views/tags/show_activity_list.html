@@ -1,16 +1,21 @@
 <h2>Klarlistan</h2>
 <ul id="ready-list">
-#{list items:_activity.getAllYes(), as:'yes' /}
+#{list items:_activity.getAllYes(), as:'yes'}
 <li class="ready">${yes?.user?.name}</li>
+#{/list}
 </ul>
+
 <h2>Bortalistan</h2>
 <ul id="gone-list">
-#{list items:_activity.getAllNo(), as:'no' /}
+#{list items:_activity.getAllNo(), as:'no'}
 <li class="gone">${no?.user?.name}</li>
+#{/list}
 </ul>
+
 <h2>Ej svarat</h2>
 
 <ul id="unknown-list">
-#{list items:_activity.getAllUnknown(), as:'unknown' /}
+#{list items:_activity.getAllUnknown(), as:'unknown'}
 <li class="unknown">${unknown?.user?.name}</li>
+#{/list}
 </ul>

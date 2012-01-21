@@ -68,11 +68,11 @@ public class Activity extends Model {
 	}
 	
 	public List<ActivityStatus> getAllNo() {
-		return getAllActivityStatusesForStatus(-1);
+		return getAllActivityStatusesForStatus(0);
 	}
 	
 	public List<ActivityStatus> getAllUnknown() {
-		return getAllActivityStatusesForStatus(0);
+		return getAllActivityStatusesForStatus(-1);
 	}
 	
 	private List<ActivityStatus> getAllActivityStatusesForStatus(int status) {

@@ -55,9 +55,9 @@ public class UserFriends extends CRUD {
 		return true;
 	}
 	
-	public static void addFriend(User friend) {
+	public static void addFriend(String friendId) {
 		User user = User.findUserByUsername(Security.connected());
-		user.addFriend(friend);
+		user.addFriend(friendId);
 		listAll();
 	}
 	
