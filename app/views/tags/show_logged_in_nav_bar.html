@@ -17,6 +17,15 @@
     #{/else}
      <a href="@{UserFriends.listAll()}">Vänner</a>
     
+     *{Kontouppgifter}*
+     #{if request.controller == "Users"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+     <a href="@{Users.showAccountInfo()}">Kontouppgifter</a>
+    
     *{Logga ut}*
     <li>
       <a href="@{Secure.logout()}">Logga ut</a>   

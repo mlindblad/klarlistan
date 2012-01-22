@@ -1,0 +1,24 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="start-header">
+<h1>Uppdatera kontouppgifter</h1>
+</div>
+
+<div id="signup-form" class="signup-form">
+    #{ifErrors}
+        <div class="error">
+               ${errors[0]}
+         </div>
+    #{/ifErrors}
+    
+    #{if flash.success}
+    <p class="success">${flash.success}</p>
+    #{/if}
+
+#{form @Application.updateUser()}
+       
+#{account_info user:user /}
+
+#{/form}
+</div>

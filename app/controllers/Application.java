@@ -27,7 +27,7 @@ public class Application extends Controller {
     public static void createUser(@Required(message="Ange namn") String user_name,
     		@Required(message="Ange email") String user_email,
     		@Required(message="Ange lösenord") String user_password,
-    		@Required(message="Ange lösenord") String user_password_confirmation
+    		@Required(message="Bekräfta lösenord") String user_password_confirmation
     		) {
     	
     	
@@ -91,4 +91,31 @@ public class Application extends Controller {
     	second.save();
     	
     }
+    
+    public static void updateUser(String user_name, String user_email, String user_password, String user_password_confirmation) {
+    	flash.clear();
+    	validation.clear();
+    	
+    	if (!user_password.equals(user_password_confirmation)) {
+    		validation.addError(user_password_confirmation, "Lösenorden överensstämmer inte");
+    	}
+    	if ("".equals(user_name)) {
+    		validation.addError(user_name, "Namnet måste innehålla minst ett tecken");
+    	}
+
+    	User user = User.findUserByUsername(user_email);
+    	if (validation.hasErrors()) {
+			render("Users/showAccountInfo.html", user);
+			return;
+		}
+    	
+    	user.name = user_name;
+    	user.password = user_password;
+    	user.save();
+    	
+    	flash.success("Dina uppgifter är nu uppdaterade");
+    	
+    	render("Users/showAccountInfo.html", user);
+    }
+    
 }

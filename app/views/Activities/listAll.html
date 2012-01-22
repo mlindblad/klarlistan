@@ -20,13 +20,6 @@
 </tr>
 
 #{list items:activities, as:'activity'}
-*{
-  <% if (a.time > Time.now) && a.active -%>
-  <tr class="<%= cycle('list-line-odd', 'list-line-even') %>">
-  <% else -%>
-  <tr class="list-line-inactive">
-  <% end -%>
-  }*
     <td>${activity.date.format("EEEE dd MMM yyyy 'kl' HH:mm")}</td>
     <td><a href="@{Activities.show(activity.id)}">${activity.name} , ${activity.location} </a></td>
           
@@ -48,17 +41,14 @@
     }%
         
   </td>
-  *{
   
   <td>
-  <% if @current_user == a.user -%>
-  <%= link_to 'uppdatera', :controller => 'activity', :action => 'edit', :id => a.id %>
-  <% else -%> 
-  <%= link_to 'visa', :controller => 'activity', :action => 'show', :id => a.id %>
-  <% end -%>
-  
+  #{if activity.creator == user }
+        #{a @Activities.edit(activity.id)}Uppdatera#{/a}
+  #{/if}
+ 
   </td>
-  }*            
+            
 </tr>
 #{/list}
 </table>

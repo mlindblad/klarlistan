@@ -21,7 +21,7 @@ import play.db.jpa.Model;
 public class User extends Model {
 	
 	@Required
-	@MinSize(4)
+	@MinSize(1)
 	public String name;
 	
 	@Required

@@ -9,4 +9,9 @@ public class Users extends CRUD {
 	public static void search() {
 //		render("UserFriends/listAll.html");
 	}
+	
+	public static void showAccountInfo() {
+		User user = User.findUserByUsername(Security.connected()); 
+		render(user);
+	}
 }

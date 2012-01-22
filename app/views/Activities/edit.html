@@ -1,26 +1,22 @@
-#{extends 'main.html' /}
-#{set title:'Home' /}
+#{extends 'main.html' /} #{set title:'Home' /}
 
 <div class="start-header">
-    <h1>Ny aktivitet</h1>
+	<h1>Uppdatera aktivitet</h1>
 </div>
 <div class="add-activity-form">
 
-  <h1>Detaljer</h1>
-  
-    #{ifErrors}
-        <p class="error">
-               ${errors[0]}
-         </p>
-    #{/ifErrors}
-  #{form @save()}
+	<h1>Detaljer</h1>
 
-  #{activity_form friends:friends/}  
+	#{ifErrors}
+	<p class="error">${errors[0]}</p>
+	#{/ifErrors} 
+	
+	#{form @update(activity.id)} 
+	
+	#{activity_form friends:friends, activity:activity, actUsers:actUsers/} 
+	
+	<input type="submit" value="Uppdatera aktivitet" /> #{/form}
 
-  <input type="submit" value="Skapa aktivitet" />
-  
-#{/form} 
-   
 </div>
 
 
@@ -50,7 +46,7 @@
        
        
        
-</script> 
+</script>
 
 
 <script type="text/javascript"> 
@@ -80,7 +76,7 @@
             });
         });
     });
-</script> 
+</script>
 
 <script type="text/javascript"> 
         $.datepicker.setDefaults($.datepicker.regional['sv']);
@@ -99,6 +95,4 @@
                         closeText: 'Klar'
                 }); 
         }); 
-</script> 
-
-
+</script>
