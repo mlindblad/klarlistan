@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import play.mvc.Controller;
+
 import models.User;
 import models.UserFriend;
 
-public class UserFriends extends CRUD {
+public class UserFriends extends Controller {
 
 	public static void listAll() {
 		User findUserByUsername = User.findUserByUsername(Security.connected());

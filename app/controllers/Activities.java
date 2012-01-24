@@ -21,9 +21,8 @@ import play.mvc.Controller;
 import play.mvc.Scope.Session;
 import play.mvc.With;
 
-@CRUD.For(Activity.class)
 @With(Secure.class)
-public class Activities extends CRUD {
+public class Activities extends Controller {
 
 	public static void show(Long activityId) {
 		Activity activity = Activity.findById(activityId);
