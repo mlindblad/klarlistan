@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import play.mvc.With;
 @With(Secure.class)
 public class Activities extends Controller {
 
+	private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	
 	public static void show(Long activityId) {
 		Activity activity = Activity.findById(activityId);
 		User user = User.findUserByUsername(Security.connected());
@@ -111,8 +114,6 @@ public class Activities extends Controller {
 	}
 
 	private static Date parseDate(String date) {
-		// The constructor is the format the string will take
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date activityDate = null;
 		try {
 			activityDate = formatter.parse(date);
@@ -135,7 +136,7 @@ public class Activities extends Controller {
 			if (!found) {
 				ActivityStatus status = new ActivityStatus(User.findUserByUsername(participant), activity, -1);
 				status.save();
-				createAndSendMail(participant);
+				createAndSendMail(participant, activity);
 			}
 			found = false;
 		}
@@ -164,10 +165,10 @@ public class Activities extends Controller {
 				information, User.findUserByUsername(Security.connected()));
 		activity.save();
 
-		for (String friend : params.getAll("friends")) {
+		for (String friend : friends) {
 			ActivityStatus status = new ActivityStatus(User.findUserByUsername(friend), activity, -1);
 			status.save();
-			createAndSendMail(friend);
+			createAndSendMail(friend, activity);
 		}
 
 		ActivityStatus status = new ActivityStatus(
@@ -185,13 +186,18 @@ public class Activities extends Controller {
 		show(activityId);
 	}
 
-	private static void createAndSendMail(String emailAddress) {
+	private static void createAndSendMail(String emailAddress, Activity activity) {
 		try {
 			SimpleEmail email = new SimpleEmail();
 			email.setFrom("info@klarlistan.nu");
 			email.addTo(emailAddress);
-			email.setSubject("du har blivit inbjuden till en aktivitet");
-			email.setMsg("Funkar verkligen detta?");
+			email.setSubject("Du har blivit inbjuden till en aktivitet");
+			email.setMsg("Meddelande från klarlistan\n\nDu har blivit inbjuden till:\n\n" + 
+			"Vad: " + activity.name +"\n" +
+			"Var: " + activity.location + "\n" +
+			"När: " + formatter.format(activity.date) + "\n\n" +
+					"Klicka på länken www.klarlistan.nu/activities/show?activityId=" + activity.id + " för att ta tacka ja eller nej\n\n" +
+							"Hälsningar, Klarlistan");
 			Mail.send(email);
 		} catch (EmailException e) {
 			// TODO Auto-generated catch block

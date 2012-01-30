@@ -5,11 +5,15 @@ import play.data.validation.Required;
 import play.data.validation.Validation.ValidationResult;
 import play.db.jpa.GenericModel.JPAQuery;
 import play.db.jpa.JPABase;
+import play.libs.Mail;
 import play.mvc.*;
 
 import groovy.ui.text.FindReplaceUtility;
 
 import java.util.*;
+
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 
 import models.*;
 
@@ -17,6 +21,9 @@ import models.*;
 public class Application extends Controller {
 
     public static void index() {
+    	if (Security.isConnected()) {
+    		redirect("Activities.listAll");
+    	} 
     	redirect("Secure.login");
     }
     
@@ -72,6 +79,7 @@ public class Application extends Controller {
     		//Create user
     		user = new User(name,email, "1234567", email);
     		user.save();
+    		informUserByEmail(email, name);
     	} else {
     		List<UserFriend> myFriends = UserFriend.find("byUserId", Security.connected()).fetch();
     		for (UserFriend userFriend : myFriends) {
@@ -92,7 +100,27 @@ public class Application extends Controller {
     	
     }
     
-    public static void updateUser(String user_name, String user_email, String user_password, String user_password_confirmation) {
+    private static void informUserByEmail(String emailAddress, String name) {
+		User currentUser = User.findUserByUsername(Security.connected());
+    	try {
+			SimpleEmail email = new SimpleEmail();
+			email.setFrom("info@klarlistan.nu");
+			email.addTo(emailAddress);
+			email.setSubject("Nu finns du som användare på klarlistan");
+			email.setMsg("Hej, " + name + "\n\n" + currentUser.name + " har skapat en användare åt dig på klarlistan.\n\n" +
+					"För att logga in använder du följande uppgifter:\n\n" + 
+					"Användarnamn: " + emailAddress + "\n" +
+					"Lösenord: " + emailAddress + "\n\n" +
+					"Hälsningar, Klarlistan"
+					);
+			Mail.send(email);
+		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void updateUser(String user_name, String user_email, String user_password, String user_password_confirmation) {
     	flash.clear();
     	validation.clear();
     	
