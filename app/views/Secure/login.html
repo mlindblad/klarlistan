@@ -7,6 +7,10 @@
 
 <div id="login-form" class="login-form">
 
+    #{if flash.error}
+    <div class="error">&{flash.error}</div>
+    #{/if} 
+
     #{if flash.success}
 	<div class="success">&{flash.success}</div>
 	#{/if} 
@@ -22,13 +26,7 @@
 			<td><label for="password">Lösenord</label></td>
 			<td><input class="input-onBlur" type="password" name="password" id="password" value="" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'"/></td>
 		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td><input type="checkbox" name="remember" id="remember" value="true"
-        ${flash.remember ? 'checked="true" ' : ''} /> <label for="remember">&{'secure.remember'}</label>
-
-			</td>
-		</tr>
+		
 		<tr>
 			<td>&nbsp;</td>
 			<td class="submit"><input type="submit" id="signin" value="&{'secure.signin'}" /></td>

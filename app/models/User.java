@@ -8,6 +8,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import controllers.Security;
 
 import play.data.validation.Email;
 import play.data.validation.MinSize;
@@ -18,7 +21,7 @@ import play.db.jpa.Model;
 public class User extends Model {
 	
 	@Required
-	@MinSize(4)
+	@MinSize(1)
 	public String name;
 	
 	@Required
@@ -31,7 +34,7 @@ public class User extends Model {
 	
 	@ManyToMany 
 	public List<Activity> followedActivities = new ArrayList<Activity>(); 
-	
+		
 	public User(String name, String email, String mobileNr, String password) {
 		this.name = name;
         this.email = email;
@@ -39,6 +42,13 @@ public class User extends Model {
         this.password = password;
         
     }
+	
+	public void addFriend(String friendId) {
+		UserFriend first = new UserFriend(email, friendId);
+		UserFriend second = new UserFriend(friendId, email);
+		first.save();
+		second.save();
+	}
 	
 	public static User findUser(String email, String password) {
 	    return find("byEmailAndPassword", email, password).first();

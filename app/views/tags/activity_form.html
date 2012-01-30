@@ -1,0 +1,86 @@
+<table class="form-table" id="table-left" cellspacing="0">
+	<tr>
+		<td><label>Aktivitet:</label></td>
+		<td>#{field 'name'} <input class="input-onBlur" type="text"
+			id="${field.id}" name="${field.name}" value="${_activity?.name}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'"> #{/field}
+		</td>
+	</tr>
+	<tr>
+		<td><label>Plats:</label></td>
+		<td>#{field 'location'} <input class="input-onBlur" type="text"
+			id="${field.id}" name="${field.name}" value="${_activity?.location}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" /> #{/field}
+		</td>
+	</tr>
+	<tr>
+		<td><label>Tidpunkt:</label></td>
+		<td>#{field 'date'} <input class="input-onBlur" type="text"
+			id="${field.id}" name="${field.name}" value="${_activity?.date}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" /> #{/field}
+		</td>
+	</tr>
+	<tr>
+		<td><label>Information:</label></td>
+		<td>#{field 'information'} <textarea class="input-onBlur"
+				type="text" id="${field.id}" name="${field.name}"
+				value="${_activity?.information}"
+				onBlur="this.className='input-onBlur'"
+				onFocus="this.className='input-onFocus'"></textarea> #{/field}
+		</td>
+	</tr>
+</table>
+
+<h1>Deltagare</h1>
+
+<table id="friends" class="form-table" cellspacing="0">
+	<tr>
+		<td class="list-tags">Markera: <a href="#" id="selectAll">Alla</a>
+			<a href="#" id="unSelectAll">Inga</a>
+		</td>
+	</tr>
+
+	#{list items:_friends, as:'friend'}
+	<tr class="list-line-odd">
+
+		<td id="list_activity_user_id_"><input type="checkbox"
+			id="activity_user_id_" name="friends" value="${friend.email}" 
+			#{if _actUsers?.contains(friend)} checked=true #{/if} /> <label
+			for="activity_user_id_">${friend.name} </label></td>
+	</tr>
+	#{/list}
+
+</table>
+
+<h1>Lägg till ytterligare användare</h1>
+<h5>Användare som inte finns sedan tidigare kommer skapas</h5>
+
+<div id="show-error-message"></div>
+
+<table class="form-table" cellspacing="0">
+	<tr>
+		<td><label>Email:</label></td>
+		<td>#{field 'newUserEmail'} <input class="input-onBlur"
+			type="text" id="${field.name}" name="${field.name}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" /> #{/field}
+		</td>
+	</tr>
+	<tr>
+		<td><label>Namn:</label></td>
+		<td>#{field 'newUserName'} <input class="input-onBlur"
+			type="text" id="${field.id}" name="${field.name}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" /> #{/field}
+		</td>
+		<td id="newUserName"><a
+			href="@{application.createUserFromActivity()}" class="ajaxLink">Lägg
+				till</a>
+		<td>
+	</tr>
+
+</table>
+

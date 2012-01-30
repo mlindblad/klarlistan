@@ -1,12 +1,30 @@
 User(martin):
     name: Martin Lindblad
-    email: martin.lindblad@gmail.com
+    email: martin.lindblad@find-out.se
     mobileNr: 08-12243435
     password: secret
 
 User(kalle):
     name: Kalle Banan
     email: kalle.banan@gmail.com
+    mobileNr: 08-3333333
+    password: secret
+
+User(nisse):
+    name: Nisse Pisse
+    email: nisse.pisse@gmail.com
+    mobileNr: 08-3333333
+    password: secret    
+
+User(lisa):
+    name: Lisa Larsson
+    email: lisa.larsson@gmail.com
+    mobileNr: 08-3333333
+    password: secret
+
+User(göte):
+    name: Göte Banan
+    email: göte.banan@gmail.com
     mobileNr: 08-3333333
     password: secret
 
@@ -25,6 +43,14 @@ Activity(badminton):
     information: Minst 2 annars skiter vi i det och det menar jag
     creator: martin
     followedActivities: [martin]
+
+Activity(fussball):
+    name: fussball
+    location: österängsskolan
+    date: 2012-02-03
+    information: Kom i tid
+    creator: göte
+    followedActivities: [martin, kalle, göte, lisa]
 
 ActivityMessage(m1):
     message: Jag tar med en polare

@@ -1,0 +1,10 @@
+ <div id="search-users-form" class="forgot-form">
+         #{form @search()}
+         <h2>Sök efter vänner</h2>
+
+    #{field 'pattern'}
+         <input class="input-onBlur" type="text" id="${field.id}" name="${field.name}" value="${field.value}" onBlur="this.className='input-onBlur'" onFocus="this.className='input-onFocus'">
+    #{/field}
+     <input type="submit" value="Skicka" />
+#{/form} 
+</div>

@@ -37,34 +37,18 @@
         <input type="submit" value="Posta" />
     </p>
     
-#{/form}
-  
-  *{
-    <% form_tag :action => "add_message" do %>
-    <%= hidden_field_tag :activity_id, @activity.id %>
-    <%= hidden_field_tag :user_id, @current_user.id %>
-    <%= hidden_field_tag :time, Time.now %>
-    <%= text_area_tag :message, params[:message],
-                        :cols => 70,
-                        :rows => 4,
-                        :onFocus => "this.className='input-onFocus'", 
-                        :onBlur => "this.className='input-onBlur'",
-                        :class => 'input-onBlur' %>
-                       
-  <br/>
-    <%= submit_tag "Posta" %>
-    <% end %>
-    }*
-    #{if actMessages}
-    #{list items:actMessages, as:'actMessage'}
-    <div class="activity-message">
-            <div class="activity-message-header">
-            <span class="highlight">${actMessage.user.name}</span>
-            <span class="smaller">skrev ${actMessage.date}</span>
-            </div>
-            ${actMessage.message}
-    </div>
-    #{/list}
-     #{/if}
+  #{/form}
+	  
+  #{if actMessages}
+  #{list items:actMessages, as:'actMessage'}
+	<div class="activity-message">
+	        <div class="activity-message-header">
+	        <span class="highlight">${actMessage.user.name}</span>
+	        <span class="smaller">skrev ${actMessage.date}</span>
+	        </div>
+	        ${actMessage.message}
+	</div>
+  #{/list}
+  #{/if}
 </div>
 </div>

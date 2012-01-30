@@ -7,6 +7,24 @@
         <li>
     #{/else}
      <a href="@{Activities.listAll()}">Aktiviteter</a>
+     
+     *{V�nner}*
+     #{if request.controller == "Friends"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+     <a href="@{UserFriends.listAll()}">Vänner</a>
+    
+     *{Kontouppgifter}*
+     #{if request.controller == "Users"}
+        <li id="current">
+    #{/if}
+    #{else}
+        <li>
+    #{/else}
+     <a href="@{Users.showAccountInfo()}">Kontouppgifter</a>
     
     *{Logga ut}*
     <li>

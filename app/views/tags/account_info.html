@@ -1,0 +1,37 @@
+<table class="form-table" cellspacing="0">
+	<tr class="">
+		<td><label for="user_email">Email:</label></td>
+		<td><input class="input-onBlur" id="user_email" name="user_email"
+			value="${_user.email}" onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" size="30" type="text"
+			readonly="readonly" /></td>
+	</tr>
+	<tr class="">
+		<td><label for="user_name">Namn:</label></td>
+		<td><input class="input-onBlur" id="user_name" name="user_name"
+			value="${_user.name}" onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" size="30" type="text" /></td>
+	</tr>
+	<tr class="">
+		<td><label for="user_password">Lösenord:</label></td>
+		<td><input class="input-onBlur" id="user_password"
+			name="user_password" value="${_user.password}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" size="30" type="password" />
+		</td>
+	</tr>
+	<tr class="">
+		<td><label for="user_password_confirmation">Bekräfta
+				lösenord:</label></td>
+		<td><input class="input-onBlur" id="user_password_confirmation"
+			name="user_password_confirmation" value="${_user.password}"
+			onBlur="this.className='input-onBlur'"
+			onFocus="this.className='input-onFocus'" size="30" type="password" />
+		</td>
+	</tr>
+	<tr class="">
+		<td>&nbsp;</td>
+		<td class="submit"><input class="submit" name="commit"
+			type="submit" value="Skicka" /></td>
+	</tr>
+</table>
