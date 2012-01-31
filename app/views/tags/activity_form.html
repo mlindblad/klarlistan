@@ -47,9 +47,9 @@
 	<tr class="list-line-odd">
 
 		<td id="list_activity_user_id_"><input type="checkbox"
-			id="activity_user_id_" name="friends" value="${friend.email}" 
+			id="activity_user_id_" name="friends" value="${friend?.email}" 
 			#{if _actUsers?.contains(friend)} checked=true #{/if} /> <label
-			for="activity_user_id_">${friend.name} </label></td>
+			for="activity_user_id_">${friend?.name} </label></td>
 	</tr>
 	#{/list}
 
