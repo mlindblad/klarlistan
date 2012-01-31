@@ -64,7 +64,8 @@ public class Application extends Controller {
     public static void createUserFromActivity(String name, String email) {
     	//Simple validation
     	ValidationResult valRes = validation.email(email);
-    	if (!valRes.ok) {
+    	System.out.println("Email " + email);
+    	if (!valRes.ok || email == null || email.equals("")) {
     		error("Ogiltig Emailadress");
     		return;
     	}

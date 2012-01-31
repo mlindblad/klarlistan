@@ -15,13 +15,14 @@
     #{/ifErrors}
   #{form @save()}
 
-  #{activity_form friends:friends/}  
+  #{activity_form friends:friends, activity:activity/}  
 
   <input type="submit" value="Skapa aktivitet" />
   
-#{/form} 
+  #{/form} 
    
 </div>
+
 
 
 <script type="text/javascript"> 
@@ -47,8 +48,6 @@
             });
         });     
        });
-       
-       
        
 </script> 
 

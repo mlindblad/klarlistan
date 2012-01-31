@@ -18,7 +18,7 @@
 	<tr>
 		<td><label>Tidpunkt:</label></td>
 		<td>#{field 'date'} <input class="input-onBlur" type="text"
-			id="${field.id}" name="${field.name}" value="${_activity?.date}"
+			id="${field.id}" name="${field.name}" value="${_activity?.date?.format('yyyy-MM-dd HH:mm')}"
 			onBlur="this.className='input-onBlur'"
 			onFocus="this.className='input-onFocus'" /> #{/field}
 		</td>
