@@ -171,7 +171,8 @@ public class Activities extends Controller {
 		
 		activity.save();
 
-		for (String friend : params.getAll("friends")) {
+		String[] activityFriends = params.getAll("friends");
+		for (String friend : activityFriends) {
 			ActivityStatus status = new ActivityStatus(User.findUserByUsername(friend), activity, -1);
 			status.save();
 			createAndSendMail(friend, activity);
@@ -205,6 +206,7 @@ public class Activities extends Controller {
 	private static void createAndSendMail(String emailAddress, Activity activity) {
 		try {
 			SimpleEmail email = new SimpleEmail();
+			email.setCharset("UTF-8");
 			email.setFrom("info@klarlistan.nu");
 			email.addTo(emailAddress);
 			email.setSubject("Du har blivit inbjuden till en aktivitet");
