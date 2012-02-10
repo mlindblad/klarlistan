@@ -15,13 +15,14 @@
     #{/ifErrors}
   #{form @save()}
 
-  #{activity_form friends:friends/}  
+  #{activity_form friends:friends, activity:activity/}  
 
   <input type="submit" value="Skapa aktivitet" />
   
-#{/form} 
+  #{/form} 
    
 </div>
+
 
 
 <script type="text/javascript"> 
@@ -48,8 +49,6 @@
         });     
        });
        
-       
-       
 </script> 
 
 
@@ -69,6 +68,7 @@
                 success: function(data) { //data is the response from the server, here assuming JSON: { "name": "Martin" }
                     $('<tr class="list-line-odd"><td id="list_activity_user_id_"><input type="checkbox" id="activity_user_id_ajax" name="friends" checked="yes" value=""/><label for="activity_user_id_"> ' + $("#newUserName").val() + '</label></td></tr>').appendTo("#friends");   
                     $('#activity_user_id_ajax').val($("#newUserEmail").val());
+                    $('#activity_user_id_ajax').attr("id", $("#newUserEmail").val());
                     $('input#newUserEmail').val("");
                     $('input#newUserName').val("");
                     $('.error').remove();

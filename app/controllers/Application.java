@@ -64,7 +64,7 @@ public class Application extends Controller {
     public static void createUserFromActivity(String name, String email) {
     	//Simple validation
     	ValidationResult valRes = validation.email(email);
-    	if (!valRes.ok) {
+    	if (!valRes.ok || email == null || email.equals("")) {
     		error("Ogiltig Emailadress");
     		return;
     	}
@@ -104,6 +104,7 @@ public class Application extends Controller {
 		User currentUser = User.findUserByUsername(Security.connected());
     	try {
 			SimpleEmail email = new SimpleEmail();
+			email.setCharset("UTF-8");
 			email.setFrom("info@klarlistan.nu");
 			email.addTo(emailAddress);
 			email.setSubject("Nu finns du som användare på klarlistan");

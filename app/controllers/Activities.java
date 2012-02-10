@@ -16,6 +16,7 @@ import models.ActivityStatus;
 import models.User;
 import models.UserFriend;
 import play.data.validation.Required;
+import play.data.validation.Valid;
 import play.db.jpa.JPABase;
 import play.libs.Mail;
 import play.mvc.Controller;
@@ -153,19 +154,25 @@ public class Activities extends Controller {
 	public static void save(
 			@Required(message = "Ange ett namn på aktiviteten") String name,
 			@Required(message = "Ange plats") String location,
-			@Required(message = "Ange datum") String date, String information, String[] friends) {
-
-		if (validation.hasErrors()) {
-			render("Activities/newActivity.html");
-		}
+			@Required(message = "Ange datum") String date, String information) {
 
 		Date activityDate = parseDate(date);
-
 		Activity activity = new Activity(name, location, activityDate,
 				information, User.findUserByUsername(Security.connected()));
+
+		if (params.getAll("friends") == null || params.getAll("friends").length == 0) {
+			validation.addError("friends", "Minst en deltagare måste vara vald");
+		}
+		
+		if (validation.hasErrors()) {
+			List<User> friends = getFriends();
+			render("Activities/newActivity.html", friends, activity);
+		}
+		
 		activity.save();
 
-		for (String friend : friends) {
+		String[] activityFriends = params.getAll("friends");
+		for (String friend : activityFriends) {
 			ActivityStatus status = new ActivityStatus(User.findUserByUsername(friend), activity, -1);
 			status.save();
 			createAndSendMail(friend, activity);
@@ -185,10 +192,21 @@ public class Activities extends Controller {
 		actMessage.save();
 		show(activityId);
 	}
+	
+	private static List<User> getFriends() {
+		List<User> friends = new ArrayList<User>();
+		List<UserFriend> UserFriends = UserFriend.find("byUserId",
+				Security.connected()).fetch();
+		for (UserFriend userFriend : UserFriends) {
+			friends.add(User.findUserByUsername(userFriend.friendId));
+		}
+		return friends;
+	}
 
 	private static void createAndSendMail(String emailAddress, Activity activity) {
 		try {
 			SimpleEmail email = new SimpleEmail();
+			email.setCharset("UTF-8");
 			email.setFrom("info@klarlistan.nu");
 			email.addTo(emailAddress);
 			email.setSubject("Du har blivit inbjuden till en aktivitet");
