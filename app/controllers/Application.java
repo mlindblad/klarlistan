@@ -30,6 +30,23 @@ public class Application extends Controller {
     public static void signup() {
     	render();
     }
+    
+    public static void forgotPassword() {
+    	render();
+    }
+    
+    public static void sendForgotPasswordMail(String email) {
+    	System.out.println(email);
+    	User user = User.findUserByUsername(email);
+    	if (user == null) {
+    		flash.error("Det finns ingen användare registrerad med följande email " + email);
+    		render("Application/forgotPassword.html");
+    	}
+    	String subject = "Här kommer ditt lösenord";
+    	String message = "Hej, \n\nHär är ditt lösenord för att logga in på klarlistan\n\nLösenord: " + user.password + "\n\nHälsningar klarlistan";
+    	sendMail(email, subject, message);
+    	render("Application/forgotPasswordSent.html");
+    }
 
     public static void createUser(@Required(message="Ange namn") String user_name,
     		@Required(message="Ange email") String user_email,
@@ -79,7 +96,7 @@ public class Application extends Controller {
     		//Create user
     		user = new User(name,email, "1234567", email);
     		user.save();
-    		informUserByEmail(email, name);
+    		sendMailToNewUser(email, name);
     	} else {
     		List<UserFriend> myFriends = UserFriend.find("byUserId", Security.connected()).fetch();
     		for (UserFriend userFriend : myFriends) {
@@ -100,26 +117,32 @@ public class Application extends Controller {
     	
     }
     
-    private static void informUserByEmail(String emailAddress, String name) {
-		User currentUser = User.findUserByUsername(Security.connected());
+    private static void sendMailToNewUser(String emailAddress, String name) {
+    	User currentUser = User.findUserByUsername(Security.connected());
+    	String subject = "Nu finns du som användare på klarlistan";
+    	String message = "Hej, " + name + "\n\n" + currentUser.name + " har skapat en användare åt dig på klarlistan.\n\n" +
+    			"För att logga in använder du följande uppgifter:\n\n" + 
+    			"Användarnamn: " + emailAddress + "\n" +
+    			"Lösenord: " + emailAddress + "\n\n" +
+    			"Hälsningar, Klarlistan";
+    	sendMail(emailAddress,subject,message);
+    }
+
+    private static void sendMail(String emailAddress, String subject, String message) {
     	try {
 			SimpleEmail email = new SimpleEmail();
 			email.setCharset("UTF-8");
 			email.setFrom("info@klarlistan.nu");
 			email.addTo(emailAddress);
-			email.setSubject("Nu finns du som användare på klarlistan");
-			email.setMsg("Hej, " + name + "\n\n" + currentUser.name + " har skapat en användare åt dig på klarlistan.\n\n" +
-					"För att logga in använder du följande uppgifter:\n\n" + 
-					"Användarnamn: " + emailAddress + "\n" +
-					"Lösenord: " + emailAddress + "\n\n" +
-					"Hälsningar, Klarlistan"
-					);
+			email.setSubject(subject);
+			email.setMsg(message);
 			Mail.send(email);
 		} catch (EmailException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+    }
+    
 
 	public static void updateUser(String user_name, String user_email, String user_password, String user_password_confirmation) {
     	flash.clear();
