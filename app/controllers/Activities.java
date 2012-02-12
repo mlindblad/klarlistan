@@ -15,6 +15,7 @@ import models.ActivityMessage;
 import models.ActivityStatus;
 import models.User;
 import models.UserFriend;
+import play.Logger;
 import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.db.jpa.JPABase;
@@ -218,7 +219,7 @@ public class Activities extends Controller {
 							"Hälsningar, Klarlistan");
 			Mail.send(email);
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
+			Logger.debug("Email is not send to %s", emailAddress);
 			e.printStackTrace();
 		}
 	}
