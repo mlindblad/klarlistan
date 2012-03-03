@@ -14,6 +14,9 @@
 	
 	#{form @update(activity.id)} 
 	
+	<!-- activity.id doesn't work for som reason  -->
+	<input type="hidden" name="activityId" value="${activity.id}"/>
+	
 	#{activity_form friends:friends, activity:activity, actUsers:actUsers/} 
 	
 	<input type="submit" value="Uppdatera aktivitet" /> #{/form}

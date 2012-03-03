@@ -56,11 +56,11 @@ public class Activity extends Model {
 	}
 	
 	public int nrOfNo() {
-		return getAllActivityStatusesForStatus(-1).size();
+		return getAllActivityStatusesForStatus(0).size();
 	}
 	
 	public int nrOfUnknown() {
-		return getAllActivityStatusesForStatus(0).size();
+		return getAllActivityStatusesForStatus(-1).size();
 	}
 	
 	public List<ActivityStatus> getAllYes() {

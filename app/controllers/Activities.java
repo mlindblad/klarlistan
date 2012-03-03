@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
@@ -100,7 +104,6 @@ public class Activities extends Controller {
 		}
 
 		Date activityDate = parseDate(date);
-
 		Activity activity = Activity.findById(activityId);
 		activity.name = name;
 		activity.location = location;
@@ -217,9 +220,24 @@ public class Activities extends Controller {
 			"När: " + formatter.format(activity.date) + "\n\n" +
 					"Klicka på länken www.klarlistan.nu/activities/show?activityId=" + activity.id + " för att ta tacka ja eller nej\n\n" +
 							"Hälsningar, Klarlistan");
-			Mail.send(email);
+			
+			
+			Future<Boolean> isMailSent = Mail.send(email);
+			if(isMailSent.get(5, TimeUnit.SECONDS) == false) { // wait for the
+			    System.out.println("Email not sent to: " + emailAddress);
+			}
+			
 		} catch (EmailException e) {
 			Logger.debug("Email is not send to %s", emailAddress);
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
